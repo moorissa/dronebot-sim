@@ -6,7 +6,7 @@ Drone base simulation and control with MuJoCo.
 
 ## Week 1 Plan: Falling Body → Hover
 
-### Day 1: Repo + Model Skeleton
+### Step 1: Repo + Model Skeleton
 - Create repo and folder structure
 - Add one MuJoCo XML with free-body drone base
 - Run one step and log `qpos`/`qvel`
@@ -15,7 +15,7 @@ Drone base simulation and control with MuJoCo.
 
 ---
 
-### Day 2: Motor Force/Torque Mixer
+### Step 2: Motor Force/Torque Mixer
 Implement 4-motor mapping:
 - Total thrust
 - Roll/pitch torques from arm leverage
@@ -26,7 +26,7 @@ Implement 4-motor mapping:
 
 ---
 
-### Day 3: Altitude Hold (inner-most success)
+### Step 3: Altitude Hold (inner-most success)
 - PID on z (or vertical velocity + z outer)
 - Tune with no wind/disturbances first
 
@@ -34,7 +34,7 @@ Implement 4-motor mapping:
 
 ---
 
-### Day 4: Attitude Hold
+### Step 4: Attitude Hold
 - Add roll/pitch/yaw control loops
 - Tune at small-angle commands
 
@@ -42,7 +42,7 @@ Implement 4-motor mapping:
 
 ---
 
-### Day 5: Position Hold
+### Step 5: Position Hold
 - Outer loop (x, y, z) → attitude setpoints + thrust
 - Keep limits on tilt angle
 
@@ -50,7 +50,7 @@ Implement 4-motor mapping:
 
 ---
 
-### Day 6: Disturbance + Realism Pass
+### Step 6: Disturbance + Realism Pass
 - Add sensor noise/bias + simple latency
 - Add mass/inertia from BOM approximations
 - Add scripted gust impulses
@@ -59,7 +59,7 @@ Implement 4-motor mapping:
 
 ---
 
-### Day 7: Validation Harness
+### Step 7: Validation Harness
 Add repeatable eval script + plots:
 - RMS position error
 - Settling time

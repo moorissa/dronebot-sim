@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Day 4: Attitude hold demo.
+"""Step 4: Attitude hold demo.
 
 Steps through a sequence of roll/pitch/yaw commands while maintaining altitude.
 Exit criteria: angle command tracking without oscillation or saturation.
@@ -150,7 +150,7 @@ def run(model_path: Path, cfg_path: Path, viewer: bool, max_tilt_deg: float) -> 
     saturated_steps = 0
 
     print("=" * 60)
-    print("Day 4 — Attitude Hold Demo")
+    print("Step 4 — Attitude Hold Demo")
     print(f"  model : {model_path.name}")
     print(f"  config: {cfg_path.name}")
     print(f"  mass={mass}kg  rotors={len(rotors)}  max_tilt=±{max_tilt_deg}°")
@@ -260,7 +260,7 @@ def run(model_path: Path, cfg_path: Path, viewer: bool, max_tilt_deg: float) -> 
 
 def main() -> int:
     repo = Path(__file__).resolve().parents[1]
-    ap = argparse.ArgumentParser(description="Day 4: MuJoCo drone attitude hold demo.")
+    ap = argparse.ArgumentParser(description="Step 4: MuJoCo drone attitude hold demo.")
     ap.add_argument("--model",  type=Path, default=repo / "models" / "drone_hex_base.xml")
     ap.add_argument("--config", type=Path, default=repo / "configs" / "drone_hex_ndaa_budget.yaml")
     ap.add_argument("--viewer", action="store_true", help="Show MuJoCo passive viewer.")
