@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import time
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -94,7 +95,13 @@ def motor_mix_general(
     return np.linalg.pinv(a) @ b
 
 
-def run_demo(model_path: Path, cfg_path: Path, viewer: bool) -> int:
+def run_demo(
+    model_path: Path,
+    cfg_path: Path,
+    viewer: bool,
+    duration_override_s: float | None = None,
+    hold_viewer: bool = False,
+) -> int:
     with open(cfg_path, encoding="utf-8") as f:
         cfg = yaml.safe_load(f) or {}
 
@@ -106,7 +113,7 @@ def run_demo(model_path: Path, cfg_path: Path, viewer: bool) -> int:
     z_ref = float(cfg["hover_target_z_m"])
     yaw_moment_coeff = float(cfg.get("yaw_moment_coeff", 0.02))
     rotors = rotor_table_from_cfg(cfg)
-    duration_s = float(cfg.get("duration_s", 10.0))
+    duration_s = float(duration_override_s) if duration_override_s is not None else float(cfg.get("duration_s", 10.0))
     log_hz = float(cfg.get("log_hz", 20.0))
     gains = Gains(
         z_kp=float(cfg["z_kp"]),
@@ -197,6 +204,11 @@ def run_demo(model_path: Path, cfg_path: Path, viewer: bool) -> int:
             )
 
     if vctx is not None:
+        if hold_viewer and vctx.is_running():
+            print("Simulation finished. Viewer is held open; close the viewer window to exit.")
+            while vctx.is_running():
+                vctx.sync()
+                time.sleep(0.01)
         vctx.close()
 
     print(f"qpos after step:  {d.qpos[:7]}")
@@ -210,6 +222,12 @@ def main() -> int:
     ap.add_argument("--model", type=Path, default=repo / "models" / "drone_base.xml")
     ap.add_argument("--config", type=Path, default=repo / "configs" / "drone_base.yaml")
     ap.add_argument("--viewer", action="store_true", help="Show MuJoCo passive viewer.")
+    ap.add_argument("--duration", type=float, default=None, help="Override run duration in seconds.")
+    ap.add_argument(
+        "--hold-viewer",
+        action="store_true",
+        help="Keep viewer open after simulation ends (close window manually).",
+    )
     args = ap.parse_args()
 
     model = args.model if args.model.is_absolute() else (repo / args.model).resolve()
@@ -219,7 +237,13 @@ def main() -> int:
     if not config.is_file():
         raise SystemExit(f"Missing config: {config}")
 
-    return run_demo(model, config, args.viewer)
+    return run_demo(
+        model,
+        config,
+        args.viewer,
+        duration_override_s=args.duration,
+        hold_viewer=args.hold_viewer,
+    )
 
 
 if __name__ == "__main__":
