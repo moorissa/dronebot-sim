@@ -1,0 +1,43 @@
+<mujoco model="drone_hex_base">
+  <compiler angle="radian" coordinate="local"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="RK4"/>
+
+  <visual>
+    <headlight ambient="0.5 0.5 0.5" diffuse="0.8 0.8 0.8"/>
+  </visual>
+
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1="0.2 0.3 0.4" rgb2="0.1 0.1 0.1" width="512" height="512"/>
+    <material name="mat_grid" texture="grid" texrepeat="10 10" reflectance="0.1"/>
+  </asset>
+
+  <worldbody>
+    <geom name="ground" type="plane" size="30 30 0.1" material="mat_grid"/>
+    <light pos="0 0 8" dir="0 0 -1"/>
+
+    <body name="drone" pos="0 0 1.5">
+      <freejoint/>
+      <!-- Budget BOM-level hex estimate (~10.5kg). -->
+      <inertial pos="0 0 0" mass="10.519" diaginertia="0.55 0.55 0.9"/>
+
+      <!-- Center plate -->
+      <geom name="hub" type="cylinder" size="0.12 0.02" rgba="0.25 0.25 0.3 1"/>
+
+      <!-- 6 radial arms (R ~ 0.48m from BOM spacing) -->
+      <geom name="arm_0" type="capsule" fromto="0 0 0 0.48 0 0" size="0.016" rgba="0.12 0.12 0.12 1"/>
+      <geom name="arm_60" type="capsule" fromto="0 0 0 0.24 0.415692 0" size="0.016" rgba="0.12 0.12 0.12 1"/>
+      <geom name="arm_120" type="capsule" fromto="0 0 0 -0.24 0.415692 0" size="0.016" rgba="0.12 0.12 0.12 1"/>
+      <geom name="arm_180" type="capsule" fromto="0 0 0 -0.48 0 0" size="0.016" rgba="0.12 0.12 0.12 1"/>
+      <geom name="arm_240" type="capsule" fromto="0 0 0 -0.24 -0.415692 0" size="0.016" rgba="0.12 0.12 0.12 1"/>
+      <geom name="arm_300" type="capsule" fromto="0 0 0 0.24 -0.415692 0" size="0.016" rgba="0.12 0.12 0.12 1"/>
+
+      <!-- Rotor sites -->
+      <site name="rotor_1" pos="0.48 0 0" size="0.012" rgba="1 0 0 1"/>
+      <site name="rotor_2" pos="0.24 0.415692 0" size="0.012" rgba="0 1 0 1"/>
+      <site name="rotor_3" pos="-0.24 0.415692 0" size="0.012" rgba="0 0 1 1"/>
+      <site name="rotor_4" pos="-0.48 0 0" size="0.012" rgba="1 1 0 1"/>
+      <site name="rotor_5" pos="-0.24 -0.415692 0" size="0.012" rgba="1 0 1 1"/>
+      <site name="rotor_6" pos="0.24 -0.415692 0" size="0.012" rgba="0 1 1 1"/>
+    </body>
+  </worldbody>
+</mujoco>

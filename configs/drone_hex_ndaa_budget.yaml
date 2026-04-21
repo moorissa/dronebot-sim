@@ -1,0 +1,33 @@
+mass_kg: 10.519
+arm_length_m: 0.48
+max_thrust_per_motor_n: 53.0
+hover_target_z_m: 1.5
+
+# Rotor layout for hex (x, y in meters in body frame), spin dir +/-1 for yaw moment sign.
+# Signs alternate around the ring.
+rotors:
+  - {name: rotor_1, x: 0.48,  y: 0.0,      spin:  1}
+  - {name: rotor_2, x: 0.24,  y: 0.415692, spin: -1}
+  - {name: rotor_3, x: -0.24, y: 0.415692, spin:  1}
+  - {name: rotor_4, x: -0.48, y: 0.0,      spin: -1}
+  - {name: rotor_5, x: -0.24, y: -0.415692, spin: 1}
+  - {name: rotor_6, x: 0.24,  y: -0.415692, spin: -1}
+
+# Small reaction yaw torque coefficient (N*m per N thrust), tune later with real prop/motor.
+yaw_moment_coeff: 0.02
+
+# PID defaults for heavy BOM hex hover.
+z_kp: 18.0
+z_ki: 4.0
+z_kd: 12.0
+
+att_kp_roll: 2.2
+att_kp_pitch: 2.2
+att_kp_yaw: 0.8
+
+att_kd_p: 0.25
+att_kd_q: 0.25
+att_kd_r: 0.14
+
+duration_s: 10.0
+log_hz: 20.0

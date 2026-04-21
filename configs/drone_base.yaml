@@ -1,0 +1,23 @@
+mass_kg: 1.6
+arm_length_m: 0.18
+max_thrust_per_motor_n: 8.0
+hover_target_z_m: 1.5
+
+# PID defaults for a stable first hover demo.
+z_kp: 9.0
+z_ki: 3.0
+z_kd: 5.0
+
+# Small attitude stabilizer gains (rpy from body quaternion).
+att_kp_roll: 1.0
+att_kp_pitch: 1.0
+att_kp_yaw: 0.4
+
+# Linear angular-rate damping.
+att_kd_p: 0.12
+att_kd_q: 0.12
+att_kd_r: 0.08
+
+# Sim config
+duration_s: 10.0
+log_hz: 20.0

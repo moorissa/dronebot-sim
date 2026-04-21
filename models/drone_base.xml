@@ -1,0 +1,34 @@
+<mujoco model="drone_base">
+  <compiler angle="radian" coordinate="local"/>
+  <option timestep="0.002" gravity="0 0 -9.81" integrator="RK4"/>
+
+  <visual>
+    <headlight ambient="0.5 0.5 0.5" diffuse="0.8 0.8 0.8"/>
+  </visual>
+
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1="0.2 0.3 0.4" rgb2="0.1 0.1 0.1" width="512" height="512"/>
+    <material name="mat_grid" texture="grid" texrepeat="10 10" reflectance="0.1"/>
+  </asset>
+
+  <worldbody>
+    <geom name="ground" type="plane" size="20 20 0.1" material="mat_grid"/>
+    <light pos="0 0 6" dir="0 0 -1"/>
+
+    <body name="drone" pos="0 0 1.5">
+      <freejoint/>
+      <inertial pos="0 0 0" mass="1.6" diaginertia="0.02 0.02 0.04"/>
+
+      <!-- Simple quad frame -->
+      <geom name="frame_x" type="capsule" fromto="-0.18 0 0 0.18 0 0" size="0.012" rgba="0.1 0.1 0.1 1"/>
+      <geom name="frame_y" type="capsule" fromto="0 -0.18 0 0 0.18 0" size="0.012" rgba="0.1 0.1 0.1 1"/>
+      <geom name="hub" type="sphere" size="0.03" rgba="0.3 0.3 0.35 1"/>
+
+      <!-- Rotor sites for applying forces -->
+      <site name="rotor_fl" pos="0.18 0.18 0" size="0.01" rgba="1 0 0 1"/>
+      <site name="rotor_fr" pos="0.18 -0.18 0" size="0.01" rgba="0 1 0 1"/>
+      <site name="rotor_rl" pos="-0.18 0.18 0" size="0.01" rgba="0 0 1 1"/>
+      <site name="rotor_rr" pos="-0.18 -0.18 0" size="0.01" rgba="1 1 0 1"/>
+    </body>
+  </worldbody>
+</mujoco>
